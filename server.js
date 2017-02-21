@@ -2,9 +2,11 @@ const express = require('express');
 const app = express();
 const moment = require('moment');
 console.log(__dirname);
+var port = process.env.PORT || 8080;
+
+app.use(express.static(__dirname));
 
 app.set('view engine', 'ejs');
-
 app.get('/', function(req, res){
       res.render('index');
 });
@@ -23,6 +25,6 @@ app.get('/:time', function(req, res){
       res.send(timeObj);
 });
 
-app.listen(8080, function () {
+app.listen(port, function () {
   console.log('Example app listening on port 8080!')
 })
