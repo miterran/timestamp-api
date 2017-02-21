@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const moment = require('moment');
-console.log(__dirname);
 var port = process.env.PORT || 8080;
 
 app.use(express.static(__dirname));
@@ -12,21 +11,21 @@ app.get('/', function(req, res){
 
 var timeObj = {
                 "unix": Number,
-                "natural": String
+                "natural": Number
               }; 
 
 app.get('/:time', function(req, res){
-      var date = moment(req.params.time);
-      var mSec = date.format('x');
-      date = date.format('MMMM DD, YYYY');
-      if(mSec === Number){
-          timeObj['natural'] = date;
-          timeObj['unix'] = mSec;          
+    var date = moment(req.params.time);
+    var mSec = parseInt(date.format('x'));
+    var time = date.format('MMMM DD, YYYY');
+      if(mSec > 0 || mSec < 0){
+          timeObj['natural'] = time;
+          timeObj['unix'] = mSec; 
       }else{
-          timeObj['natural'] = null;
           timeObj['unix'] = null;
+          timeObj['natural'] = null;
       }
-      res.send(timeObj);
+    res.send(timeObj);
 });
 
 app.listen(port, function () {
